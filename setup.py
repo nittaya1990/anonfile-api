@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='anonfile',
-    version='0.1.1',
+    version='0.1.2',
     author="Nicholas Strydom",
     author_email="nstrydom@gmail.com",
     description="An unofficial library that wraps the Anonfile.com REST Api.",
