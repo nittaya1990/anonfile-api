@@ -20,7 +20,7 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  # THE SOFTWARE.
 
-import wget
+#import wget
 import requests
 
 from bs4 import BeautifulSoup
@@ -124,11 +124,11 @@ class AnonFile():
         try:
             download_url = scrape_file_location(url)
 
-            print(download_url)
-
             # download code goes here
-            if download_url is not None:
-                wget.download(download_url, location)
+            #if download_url is not None:
+                #wget.download(download_url, location)
 
         except Exception as ex:
             print("[*] Error -- " + str(ex))
+            return
+        return download_url
