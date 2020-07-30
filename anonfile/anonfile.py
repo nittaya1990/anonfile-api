@@ -123,12 +123,15 @@ class AnonFile():
 
         try:
             download_url = scrape_file_location(url)
+            filename = download_url.split('/')[-1]
+            ext = filename.split('_')[-1]
+            file = filename.replace(f'_{ext}', '')
 
             # download code goes here
             #if download_url is not None:
                 #wget.download(download_url, location)
+            return download_url.replace(filename, f'{file}.{ext}')
 
         except Exception as ex:
             print("[*] Error -- " + str(ex))
             return
-        return download_url
