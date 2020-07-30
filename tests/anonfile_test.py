@@ -10,6 +10,22 @@ class AnonfileTest(unittest.TestCase):
 
         self.test_obj = anonfile.AnonFile(self.my_api_key)
 
+    def test_returns_upload_proper_url(self):
+        status, url = self.test_obj.upload_file('/home/ghost/test.txt')
+
+        assert (status is True)
+        assert(url is not None or url is not '')
+
+        print(url)
+
+    def test_returns_download_proper_url(self):
+        url = self.test_obj.download_file('https://anonfiles.com/x2U6e0Jbo2/test_txt')
+
+        #assert (status is True)
+        assert(url is not None or url is not '')
+
+        print(url)
+
     def test_returns_success_on_upload_file(self):
         status, self.file_obj = self.test_obj.upload_file('/home/ghost/my_test01')
 

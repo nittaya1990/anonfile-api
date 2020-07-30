@@ -20,7 +20,7 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  # THE SOFTWARE.
 
-#import wget
+import wget
 import requests
 
 from bs4 import BeautifulSoup
@@ -79,6 +79,15 @@ class AnonFile():
     # return None if exception is thrown
     @authenticated
     def upload_file(self, file_path):
+        # Scrapes the provided url for the url to the
+        # actual file. Only called by 'download_file()'
+        def scrape_file_location(url):
+            # Get method, retrieving the web page
+            doc = requests.get(url, timeout=self.timeout)
+            soup = BeautifulSoup(doc.text, 'lxml')
+
+            return soup.find_all('a')[1].attrs['href']
+
         # Service endpoint name
         service = '/upload'
 
@@ -100,7 +109,7 @@ class AnonFile():
             if not status:
                 raise Exception("File upload was not successful.")
 
-            return status, file_obj['url']['full']
+            return status, scrape_file_location(file_obj['url']['full'])
 
         except Exception as ex:
             print("[*] Error -- " + str(ex))
@@ -112,26 +121,13 @@ class AnonFile():
     # meta data about the uploaded file
     @authenticated
     def download_file(self, url, location=None):
-        # Scrapes the provided url for the url to the
-        # actual file. Only called by 'download_file()'
-        def scrape_file_location(url):
-            # Get method, retrieving the web page
-            response = requests.get(url, timeout=self.timeout)
-            soup = BeautifulSoup(response.text, 'lxml')
-
-            return soup.find_all('a')[1].attrs['href']
-
         try:
-            download_url = scrape_file_location(url)
-            filename = download_url.split('/')[-1]
-            ext = filename.split('_')[-1]
-            file = filename.replace(f'_{ext}', '')
+            # download code goes here, note: this code will remain untill
+            # the alternative has integrated
+            if url is not None:
+                wget.download(url, location)
 
-            # download code goes here
-            #if download_url is not None:
-                #wget.download(download_url, location)
-            return download_url.replace(filename, f'{file}.{ext}')
-
+            return url
         except Exception as ex:
             print("[*] Error -- " + str(ex))
             return
